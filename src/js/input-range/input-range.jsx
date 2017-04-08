@@ -27,6 +27,7 @@ export default class InputRange extends React.Component {
       classNames: React.PropTypes.objectOf(React.PropTypes.string),
       disabled: React.PropTypes.bool,
       formatLabel: React.PropTypes.func,
+      showEndLabels: React.PropTypes.bool,
       maxValue: rangePropType,
       minValue: rangePropType,
       name: React.PropTypes.string,
@@ -548,6 +549,34 @@ export default class InputRange extends React.Component {
     });
   }
 
+  renderMinLabel() {
+    if (this.props.showEndLabels) {
+      const minLabel = (
+        <Label
+          classNames={this.props.classNames}
+          formatLabel={this.props.formatLabel}
+          type="min">
+          {this.props.minValue}
+        </Label>
+      );
+      return minLabel;
+    }
+  }
+
+  renderMaxLabel() {
+    if (this.props.showEndLabels) {
+      const maxLabel = (
+        <Label
+          classNames={this.props.classNames}
+          formatLabel={this.props.formatLabel}
+          type="max">
+          {this.props.maxValue}
+        </Label>
+      );
+      return maxLabel;
+    }
+  }
+
   /**
    * Return JSX of hidden inputs
    * @private
@@ -581,22 +610,6 @@ export default class InputRange extends React.Component {
     const values = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
     const percentages = valueTransformer.getPercentagesFromValues(values, this.props.minValue, this.props.maxValue);
 
-/*
-        <Label
-          classNames={this.props.classNames}
-          formatLabel={this.props.formatLabel}
-          type="min">
-          {this.props.minValue}
-        </Label>
-
-        <Label
-          classNames={this.props.classNames}
-          formatLabel={this.props.formatLabel}
-          type="max">
-          {this.props.maxValue}
-        </Label>
-*/
-
     return (
       <div
         aria-disabled={this.props.disabled}
@@ -607,7 +620,7 @@ export default class InputRange extends React.Component {
         onMouseDown={this.handleMouseDown}
         onTouchStart={this.handleTouchStart}>
 
-
+        {this.renderMinLabel()}
         <Track
           classNames={this.props.classNames}
           ref={(trackNode) => { this.trackNode = trackNode; }}
@@ -616,7 +629,7 @@ export default class InputRange extends React.Component {
 
           {this.renderSliders()}
         </Track>
-
+        {this.renderMaxLabel()}
 
         {this.renderHiddenInputs()}
       </div>
