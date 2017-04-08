@@ -581,6 +581,22 @@ export default class InputRange extends React.Component {
     const values = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
     const percentages = valueTransformer.getPercentagesFromValues(values, this.props.minValue, this.props.maxValue);
 
+/*
+        <Label
+          classNames={this.props.classNames}
+          formatLabel={this.props.formatLabel}
+          type="min">
+          {this.props.minValue}
+        </Label>
+
+        <Label
+          classNames={this.props.classNames}
+          formatLabel={this.props.formatLabel}
+          type="max">
+          {this.props.maxValue}
+        </Label>
+*/
+
     return (
       <div
         aria-disabled={this.props.disabled}
@@ -590,12 +606,7 @@ export default class InputRange extends React.Component {
         onKeyUp={this.handleKeyUp}
         onMouseDown={this.handleMouseDown}
         onTouchStart={this.handleTouchStart}>
-        <Label
-          classNames={this.props.classNames}
-          formatLabel={this.props.formatLabel}
-          type="min">
-          {this.props.minValue}
-        </Label>
+
 
         <Track
           classNames={this.props.classNames}
@@ -606,12 +617,6 @@ export default class InputRange extends React.Component {
           {this.renderSliders()}
         </Track>
 
-        <Label
-          classNames={this.props.classNames}
-          formatLabel={this.props.formatLabel}
-          type="max">
-          {this.props.maxValue}
-        </Label>
 
         {this.renderHiddenInputs()}
       </div>
