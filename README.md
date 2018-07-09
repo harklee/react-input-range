@@ -88,6 +88,10 @@ To specify the amount of increment/decrement
 
 ### InputRange#props
 
+#### allowSameValues: boolean
+
+Set to `true` to allow `minValue` and `maxValue` to be the same.
+
 #### ariaLabelledby: string
 
 Set `aria-labelledby` attribute to your component.
@@ -103,6 +107,10 @@ Override the default CSS classes applied to your component and its sub-component
 #### disabled: boolean
 
 If this property is set to true, your component is disabled. This means you'll not able to interact with it.
+
+#### draggableTrack: boolean
+
+If this property is set to true, you can drag the entire track.
 
 #### formatLabel: (value: number, type: string): string
 

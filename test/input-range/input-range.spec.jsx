@@ -2,24 +2,24 @@ import React from 'react';
 import InputRange from '../../src/js';
 import { mount, shallow } from 'enzyme';
 
-let container;
-let requestAnimationFrame;
-
-beforeEach(() => {
-  requestAnimationFrame = window.requestAnimationFrame;
-  window.requestAnimationFrame = callback => callback();
-
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  window.requestAnimationFrame = requestAnimationFrame;
-
-  document.body.removeChild(container);
-});
-
 describe('InputRange', () => {
+  let container;
+  let requestAnimationFrame;
+
+  beforeEach(() => {
+    requestAnimationFrame = window.requestAnimationFrame;
+    window.requestAnimationFrame = callback => callback();
+
+    container = document.createElement('div');
+    document.body.appendChild(container);
+  });
+
+  afterEach(() => {
+    window.requestAnimationFrame = requestAnimationFrame;
+
+    document.body.removeChild(container);
+  });
+
   it('updates the current value when the user tries to drag the slider', () => {
     const jsx = (
       <InputRange
@@ -251,6 +251,49 @@ describe('InputRange', () => {
     document.dispatchEvent(new MouseEvent('mousemove', { clientX: 190, clientY: 50 }));
     document.dispatchEvent(new MouseEvent('mouseup', { clientX: 190, clientY: 50 }));
     expect(component.props().value).toEqual({ min: 9, max: 10 });
+
+    component.detach();
+  });
+
+  it('allows the min value to equal the max value', () => {
+    const jsx = (
+      <InputRange
+        allowSameValues
+        maxValue={20}
+        minValue={0}
+        value={{ min: 2, max: 10 }}
+        onChange={value => component.setProps({ value })}
+      />
+    );
+    const component = mount(jsx, { attachTo: container });
+    const minSlider = component.find(`Slider [onMouseDown]`).at(0);
+
+    minSlider.simulate('mouseDown', { clientX: 50, clientY: 50 });
+    document.dispatchEvent(new MouseEvent('mousemove', { clientX: 200, clientY: 50 }));
+    document.dispatchEvent(new MouseEvent('mouseup', { clientX: 200, clientY: 50 }));
+
+    expect(component.props().value).toEqual({ min: 10, max: 10 });
+
+    component.detach();
+  });
+
+  it('does not allow the min value to equal the max value', () => {
+    const jsx = (
+      <InputRange
+        maxValue={20}
+        minValue={0}
+        value={{ min: 2, max: 10 }}
+        onChange={value => component.setProps({ value })}
+      />
+    );
+    const component = mount(jsx, { attachTo: container });
+    const minSlider = component.find(`Slider [onMouseDown]`).at(0);
+
+    minSlider.simulate('mouseDown', { clientX: 50, clientY: 50 });
+    document.dispatchEvent(new MouseEvent('mousemove', { clientX: 200, clientY: 50 }));
+    document.dispatchEvent(new MouseEvent('mouseup', { clientX: 200, clientY: 50 }));
+
+    expect(component.props().value).toEqual({ min: 2, max: 10 });
 
     component.detach();
   });
