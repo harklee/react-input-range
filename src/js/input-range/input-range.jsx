@@ -30,6 +30,7 @@ export default class InputRange extends React.Component {
       disabled: PropTypes.bool,
       draggableTrack: PropTypes.bool,
       formatLabel: PropTypes.func,
+      showEndLabels: PropTypes.bool,
       maxValue: rangePropType,
       minValue: rangePropType,
       name: PropTypes.string,
